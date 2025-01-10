@@ -1,0 +1,36 @@
+name: Firebase Hosting Deploy
+
+# Trigger the workflow on push to the main branch
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # Use the latest Ubuntu environment
+
+    steps:
+    # Step 1: Checkout the repository code
+    - name: Checkout Code
+      uses: actions/checkout@v2  # Checkout your repository
+
+    # Step 2: Set up Node.js (if using Node.js for your project)
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'  # Specify the Node.js version (adjust if necessary)
+
+    # Step 3: Install dependencies (for Node.js projects)
+    - name: Install Dependencies
+      run: npm install  # Adjust if you're using a different package manager
+
+    # Step 4: Build the project (if needed, for example for React or Angular projects)
+    - name: Build Project (Optional)
+      run: npm run build  # Adjust if you have a build command for your project
+
+    # Step 5: Deploy to Firebase Hosting
+    - name: Deploy to Firebase Hosting
+      uses: wzieba/Firebase-Action@v2  # Firebase deployment action
+      with:
+        firebase_token: ${{ secrets.FIREBASE_AUTH_TOKEN }}  # Firebase token stored as GitHub secret
